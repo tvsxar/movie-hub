@@ -33,23 +33,23 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
                     <div
                         className="
-    absolute inset-0
-    bg-linear-to-t
-    from-black/60 via-black/20 to-transparent
-    opacity-0
-    group-hover:opacity-100
-    transition-opacity
-  "
+                            absolute inset-0
+                            bg-linear-to-t
+                            from-black/60 via-black/20 to-transparent
+                            opacity-0
+                            group-hover:opacity-100
+                            transition-opacity
+                        "
                     />
                 </div>
 
                 <div className="p-4 flex flex-col gap-4">
-                    <h2 className='font-semibold text-lg text-gray-100 line-clamp-2'>{movie.title}</h2>
+                    <h2 className='font-semibold text-md text-gray-100 line-clamp-2'>{movie.title}</h2>
 
-                    <div className="flex justify-between text-sm text-gray-400">
+                    <div className="flex justify-between text-xs text-gray-400">
                         <p>{formatDate(movie.release_date)}</p>
 
-                        <p className="text-[#9ebc9e] font-medium">
+                        <p className="text-[#9ebc9e] font-bold">
                             ★ {movie.vote_average}
                         </p>
                     </div>
