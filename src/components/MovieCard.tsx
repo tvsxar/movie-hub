@@ -5,7 +5,7 @@ interface Movie {
     id: number;
     title: string;
     release_date: string;
-    poster_path: string
+    poster_path: string;
     vote_average: number;
 }
 
@@ -25,12 +25,18 @@ export default function MovieCard({ movie }: MovieCardProps) {
             flex flex-col h-full"
         >
             <div className="relative aspect-2/3 overflow-hidden rounded-t-xl">
-                <Image
+                {movie.poster_path ? <Image
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={movie.title}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-101"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+                    loading="eager"
                 />
+                    :
+                    <div className="relative aspect-2/3 bg-linear-to-t from-gray-700 via-gray-600 to-gray-500 flex items-center justify-center text-gray-100 font-bold text-sm">
+                        🖼 Poster Not Available
+                    </div>}
 
                 <div className="
                     absolute inset-0
@@ -48,9 +54,9 @@ export default function MovieCard({ movie }: MovieCardProps) {
                 </h2>
 
                 <div className="flex justify-between text-xs text-gray-400 mt-2">
-                    <p>{formatDate(movie.release_date)}</p>
+                    <p>{movie.release_date ? formatDate(movie.release_date) : "Unknown"}</p>
                     <p className="text-[#9ebc9e] font-bold">
-                        ★ {movie.vote_average}
+                        {movie.vote_average ? `★ ${movie.vote_average.toFixed(1)}` : "No rating"}
                     </p>
                 </div>
             </div>
