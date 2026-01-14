@@ -1,7 +1,9 @@
+import React from 'react';
 import MoviesGrid from '@/components/MoviesGrid';
 import SearchBar from '@/components/SearchBar';
 import Pagination from '@/components/Pagination';
 import EmptyState from '@/components/EmptyState';
+import SkeletonGrid from '@/components/SkeletonGrid';
 import { getMovies } from "@/lib/actions";
 
 interface MoviesPageProps {
@@ -24,10 +26,10 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
         <SearchBar initialValue={searchQuery} />
         {data.results.length === 0
           ? <EmptyState />
-          : <>
+          : <React.Suspense fallback={<SkeletonGrid />}>
             <MoviesGrid movies={data.results} />
             <Pagination currentPage={data.page} totalPages={data.total_pages} />
-          </>}
+          </React.Suspense>}
       </div>
     </div>
   );
