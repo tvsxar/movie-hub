@@ -34,7 +34,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
                     loading="eager"
                 />
                     :
-                    <div className="relative aspect-2/3 bg-linear-to-t from-gray-700 via-gray-600 to-gray-500 flex items-center justify-center text-gray-100 font-bold text-sm">
+                    <div className="relative aspect-2/3 bg-linear-to-t from-gray-950 via-gray-850 to-gray-750 flex items-center justify-center text-gray-100 font-bold text-sm">
                         🖼 Poster Not Available
                     </div>}
 
