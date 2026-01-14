@@ -1,4 +1,3 @@
-import { mockMovies } from "@/lib/mock/movies"
 import MovieCard from "./MovieCard"
 
 interface Movie {
@@ -9,10 +8,14 @@ interface Movie {
     vote_average: number;
 }
 
-export default function MoviesGrid() {
+interface MoviesGridProps {
+    movies: Movie[]
+}
+
+export default function MoviesGrid({ movies }: MoviesGridProps) {
     return (
         <div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {mockMovies.results.map((movie: Movie) => (
+            {movies.map((movie) => (
                 <MovieCard key={movie.id} movie={movie} />
             ))}
         </div>
