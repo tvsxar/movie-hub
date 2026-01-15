@@ -2,6 +2,7 @@ import User from "@/lib/models/userModel";
 import { connectDB } from "@/lib/db";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { generateToken, cookieOptions } from '@/lib/utils';
 
 export async function POST(req: Request) {
   try {
@@ -51,7 +52,9 @@ export async function POST(req: Request) {
       password: hashedPassword,
     });
 
-    return NextResponse.json(
+    const token = generateToken(newUser._id);
+
+    const res = NextResponse.json(
       {
         message: "User registered successfully",
         user: {
@@ -62,6 +65,10 @@ export async function POST(req: Request) {
       },
       { status: 201 }
     );
+
+    res.cookies.set('token', token, cookieOptions);
+
+    return res;
   } catch (error) {
     console.error("REGISTER ERROR:", error);
     return NextResponse.json(

@@ -2,6 +2,7 @@ import User from "@/lib/models/userModel";
 import { connectDB } from "@/lib/db";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { generateToken, cookieOptions } from '@/lib/utils';
 
 export async function POST(req: Request) {
   try {
@@ -37,7 +38,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Wrong password!" }, { status: 400 });
     }
 
-    return NextResponse.json({
+    const token = generateToken(user._id);
+
+    const res = NextResponse.json({
       message: "Login successful",
       user: {
         _id: user._id,
@@ -45,6 +48,10 @@ export async function POST(req: Request) {
         email: user.email,
       },
     });
+
+    res.cookies.set("token", token, cookieOptions);
+
+    return res;
   } catch (error) {
     console.error("LOGIN ERROR:", error);
     return NextResponse.json(
