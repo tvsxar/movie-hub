@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import formatDate from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
 
 interface Movie {
     id: number;
