@@ -1,4 +1,8 @@
-export default function FavouritesHeader() {
+interface FavouritesHeaderProps {
+    length: number
+}
+
+export default function FavouritesHeader({ length }: FavouritesHeaderProps) {
     return (
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end 
         md:justify-between border-b border-white/5 pb-8">
@@ -13,7 +17,7 @@ export default function FavouritesHeader() {
                     <span className="hidden md:inline-flex items-center justify-center rounded-full 
                     bg-[#9ebc9e]/10 px-2.5 py-0.5 text-xs font-medium 
                     text-[#9ebc9e] ring-1 ring-inset ring-[#9ebc9e]/20">
-                        12
+                        {length}
                     </span>
                 </div>
                 <p className="text-base text-zinc-500 max-w-md leading-relaxed">
@@ -25,7 +29,7 @@ export default function FavouritesHeader() {
                 <div className="flex md:hidden items-center gap-2 rounded-xl bg-zinc-900/50 border
                  border-white/5 px-4 py-2 text-sm">
                     <span className="text-[#9ebc9e]">❤️</span>
-                    <span className="text-zinc-300 font-medium">12 items</span>
+                    <span className="text-zinc-300 font-medium">{length} items</span>
                 </div>
 
                 <button

@@ -11,10 +11,10 @@ const mockMovies = {
     ],
 };
 
-export default function page() {
+export default function FavouritesPage() {
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-8 md:py-12 transition-all duration-300">
-            <FavouritesHeader />
+            <FavouritesHeader length={mockMovies.results.length} />
             {mockMovies.results.length === 0 ? <EmptyState isFav={true} /> : <MoviesGrid movies={mockMovies.results} />}
         </div>
     )
