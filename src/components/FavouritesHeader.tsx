@@ -1,8 +1,9 @@
 interface FavouritesHeaderProps {
-    length: number
+    length: number;
+    clearAll: () => Promise<void>;
 }
 
-export default function FavouritesHeader({ length }: FavouritesHeaderProps) {
+export default function FavouritesHeader({ length, clearAll }: FavouritesHeaderProps) {
     return (
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end 
         md:justify-between border-b border-white/5 pb-8">
@@ -33,6 +34,7 @@ export default function FavouritesHeader({ length }: FavouritesHeaderProps) {
                 </div>
 
                 <button
+                    onClick={clearAll}
                     className="group relative flex items-center gap-2 overflow-hidden rounded-xl border 
                     border-red-500/20 bg-red-500/5 px-5 py-2.5 text-sm font-medium text-red-400 
                     transition-all hover:border-red-500/40 hover:bg-red-500/10 active:scale-97 

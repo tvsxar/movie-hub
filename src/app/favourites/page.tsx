@@ -16,7 +16,7 @@ interface Movie {
 }
 
 export default function FavouritesPage() {
-    const { favourites } = useFavourite();
+    const { favourites, clearAllFavourites } = useFavourite();
     const [movies, setMovies] = useState<Movie[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -46,7 +46,7 @@ export default function FavouritesPage() {
     return (
         <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-25 py-8 transition-all duration-300">
-                <FavouritesHeader length={movies.length} />
+                <FavouritesHeader length={movies.length} clearAll={clearAllFavourites} />
                 {loading
                     ? <SkeletonGrid count={movies.length} />
                     : movies.length === 0

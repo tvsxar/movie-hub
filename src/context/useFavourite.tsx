@@ -9,6 +9,7 @@ interface Favourite {
 interface FavouriteContextType {
     favourites: number[];
     toggleFavourite: (movieId: number) => Promise<void>;
+    clearAllFavourites: () => Promise<void>;
 }
 
 const FavouriteContext = createContext<FavouriteContextType | null>(null);
@@ -53,7 +54,22 @@ export default function FavouriteProvider({ children }: { children: React.ReactN
         }
     }
 
-    return <FavouriteContext.Provider value={{ favourites, toggleFavourite }}>{children}</FavouriteContext.Provider>
+    async function clearAllFavourites() {
+        try {
+            const response = await fetch('/api/favourites', {
+                method: 'DELETE'
+            })
+
+            if (!response.ok) throw new Error('Request failed');
+
+            setFavourites([]);
+        } catch (err) {
+            console.error('Failed to delete all favourites', err);
+            throw err;
+        }
+    }
+
+    return <FavouriteContext.Provider value={{ favourites, toggleFavourite, clearAllFavourites }}>{children}</FavouriteContext.Provider>
 }
 
 export function useFavourite(): FavouriteContextType {
