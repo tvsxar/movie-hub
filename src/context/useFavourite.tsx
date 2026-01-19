@@ -7,7 +7,8 @@ interface Favourite {
 }
 
 interface FavouriteContextType {
-    favourites: number[]
+    favourites: number[];
+    toggleFavourite: (movieId: number) => Promise<void>;
 }
 
 const FavouriteContext = createContext<FavouriteContextType | null>(null);
@@ -31,7 +32,28 @@ export default function FavouriteProvider({ children }: { children: React.ReactN
         fetchFavourites();
     }, []);
 
-    return <FavouriteContext.Provider value={{ favourites }}>{children}</FavouriteContext.Provider>
+    async function toggleFavourite(movieId: number) {
+        const isFav = favourites.includes(movieId);
+
+        try {
+            const response = await fetch(isFav ? `/api/favourites/${movieId}` : '/api/favourites', {
+                method: isFav ? 'DELETE' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: isFav ? undefined : JSON.stringify({ movieId })
+            })
+
+            if (!response.ok) throw new Error('Request failed');
+
+            setFavourites(prev => {
+                return isFav ? prev.filter(id => id !== movieId) : [movieId, ...prev]
+            });
+        } catch (err) {
+            console.error('Failed to toggle favourite', err);
+            throw err;
+        }
+    }
+
+    return <FavouriteContext.Provider value={{ favourites, toggleFavourite }}>{children}</FavouriteContext.Provider>
 }
 
 export function useFavourite(): FavouriteContextType {
