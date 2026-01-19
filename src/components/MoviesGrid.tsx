@@ -1,4 +1,6 @@
+'use client'
 import MovieCard from "./MovieCard"
+import { useFavourite } from "@/context/useFavourite";
 
 interface Movie {
     id: number;
@@ -13,10 +15,16 @@ interface MoviesGridProps {
 }
 
 export default function MoviesGrid({ movies }: MoviesGridProps) {
+    const { favourites, toggleFavourite } = useFavourite();
+
     return (
         <div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {movies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard
+                    key={movie.id}
+                    movie={movie}
+                    isFav={favourites.includes(movie.id)}
+                    toggleFavourite={toggleFavourite} />
             ))}
         </div>
     )

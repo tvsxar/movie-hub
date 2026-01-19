@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { formatDate } from '@/lib/utils';
+import { HiOutlineBookmark, HiBookmark } from "react-icons/hi";
 
 interface Movie {
     id: number;
@@ -10,10 +11,12 @@ interface Movie {
 }
 
 interface MovieCardProps {
-    movie: Movie
+    movie: Movie;
+    isFav: boolean;
+    toggleFavourite: (movieId: number) => Promise<void>
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie, isFav, toggleFavourite }: MovieCardProps) {
     return (
         <div className="group
             rounded-xl
@@ -29,7 +32,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={movie.title}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-101"
+                    className="object-cover transition-transform duration-300"
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
                     loading="eager"
                 />
@@ -46,6 +49,24 @@ export default function MovieCard({ movie }: MovieCardProps) {
                     group-hover:opacity-100
                     transition-opacity
                 " />
+
+                <button
+                    onClick={() => toggleFavourite(movie.id)}
+                    className="
+                        absolute top-3 right-3 z-10
+                        w-9 h-9
+                        flex items-center justify-center
+                        rounded-xl
+                        bg-black/60 backdrop-blur
+                        text-lg
+                        transition
+                        hover:scale-110
+                        hover:bg-black/80
+                        active:scale-95 cursor-pointer
+                    "
+                >
+                    {!isFav ? <HiOutlineBookmark size={20} /> : <HiBookmark size={22} />}
+                </button>
             </div>
 
             <div className="p-4 flex flex-col flex-1">

@@ -18,7 +18,7 @@ interface MoviesData {
 
 export async function getMovies(
   page = 1,
-  searchQuery = ""
+  searchQuery = "",
 ): Promise<MoviesData> {
   const endpoint = searchQuery
     ? `${BASE_URL}/search/movie`
@@ -28,7 +28,7 @@ export async function getMovies(
     ? `${endpoint}?api_key=${API_KEY}&language=en-US&page=${page}&query=${encodeURIComponent(searchQuery)}`
     : `${endpoint}?api_key=${API_KEY}&language=en-US&page=${page}`;
 
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: "no-store" });
 
   if (!res.ok) {
     throw new Error(`TMDB error: ${res.status}`);
@@ -37,4 +37,26 @@ export async function getMovies(
   const data: MoviesData = await res.json();
 
   return data;
+}
+
+export async function getMoviesByIds(ids: number[]) {
+  try {
+    const responses = await Promise.all(
+      ids.map((id) =>
+        fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`),
+      ),
+    );
+
+    const movies = await Promise.all(
+      responses.map((res) => {
+        if (!res.ok) throw new Error("TMDB error");
+        return res.json();
+      }),
+    );
+
+    return movies;
+  } catch (error) {
+    console.error("Error fetching favourite movies", error);
+    return [];
+  }
 }
