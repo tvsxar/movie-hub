@@ -7,29 +7,20 @@ interface AuthFormProps {
     isLogin: boolean;
 }
 
+const initialUserData = { login: '', username: '', email: '', password: '' };
+const inputClass = `w-full px-4 py-3 rounded-lg bg-zinc-800 text-white 
+placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9ebc9e] transition`;
+
 export default function AuthForm({ isLogin }: AuthFormProps) {
     const { auth } = useAuth();
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
-    const [userData, setUserData] = useState({
-        login: '',
-        username: '',
-        email: '',
-        password: ''
-    });
+    const [userData, setUserData] = useState(initialUserData);
 
-    useEffect(() => {
-        setUserData({
-            login: '',
-            username: '',
-            email: '',
-            password: ''
-        });
-    }, [isLogin]);
+    useEffect(() => setUserData(initialUserData), [isLogin]);
 
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
-
         setUserData(prev => ({ ...prev, [name]: value }));
     }
 
@@ -37,42 +28,23 @@ export default function AuthForm({ isLogin }: AuthFormProps) {
         e.preventDefault();
         setError(null);
 
-        const dataToSend = { ...userData };
-
-        if (isLogin) {
-            dataToSend.email = '';
-            dataToSend.username = '';
-        } else {
-            dataToSend.login = '';
-        }
+        const { login, username, email, password } = userData;
+        const dataToSend = isLogin
+            ? { login, password }
+            : { username, email, password };
 
         try {
             await auth(isLogin, dataToSend);
             router.push('/');
-
-            setUserData({
-                login: '',
-                username: '',
-                email: '',
-                password: ''
-            });
+            setUserData(initialUserData);
         } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            }
+            if (err instanceof Error) setError(err.message);
         }
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-4">
-
-            {error && (
-                <p className="text-red-400 text-sm text-center">
-                    {error}
-                </p>
-            )}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 
             <input
                 type="text"
@@ -80,31 +52,35 @@ export default function AuthForm({ isLogin }: AuthFormProps) {
                 required
                 onChange={handleInput}
                 placeholder={isLogin ? "Username or Email" : "Username"}
-                className="w-full px-4 py-3 rounded-lg bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9ebc9e] transition"
+                className={inputClass}
             />
-            {!isLogin && <input
-                type="email"
-                name="email"
-                required
-                onChange={handleInput}
-                placeholder="Email"
-                className="w-full px-4 py-3 rounded-lg bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9ebc9e] transition"
-            />}
+            {!isLogin && (
+                <input
+                    type="email"
+                    name="email"
+                    required
+                    onChange={handleInput}
+                    placeholder="Email"
+                    className={inputClass}
+                />
+            )}
             <input
                 type="password"
                 name="password"
                 required
                 onChange={handleInput}
                 placeholder="Password"
-                className="w-full px-4 py-3 rounded-lg bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9ebc9e] transition"
+                className={inputClass}
             />
 
             <button
                 type="submit"
-                className="w-full py-3 mt-2 bg-[#9ebc9e] text-black font-semibold rounded-lg hover:bg-[#8aad8a] transition cursor-pointer"
+                className="w-full py-3 mt-2 bg-[#9ebc9e] text-black 
+                font-semibold rounded-lg hover:bg-[#8aad8a] 
+                transition cursor-pointer"
             >
                 {isLogin ? 'Sign In' : 'Sign Up'}
             </button>
         </form>
-    )
+    );
 }

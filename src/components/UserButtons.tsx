@@ -7,6 +7,8 @@ interface UserButtonsProps {
     logout: () => Promise<void>;
 }
 
+const iconButtonClass = "cursor-pointer rounded-xl p-2 transition active:scale-97";
+
 function UserButtons({ username, logout }: UserButtonsProps) {
     return (
         <div className='flex gap-3 sm:gap-4'>
@@ -18,16 +20,15 @@ function UserButtons({ username, logout }: UserButtonsProps) {
             </div>
 
             <div className="flex items-center gap-2">
-                <Link href="/favourites" className="cursor-pointer bg-[#9ebc9e] rounded-xl 
-                p-2 hover:bg-[#9ebc9e]/70 active:scale-97 text-black transition 
-                hover:drop-shadow-[0_0_4px_rgba(158,188,158,0.6)]">
+                <Link href="/favourites"
+                    className={`${iconButtonClass} bg-[#9ebc9e] hover:bg-[#9ebc9e]/70 
+                    text-black hover:drop-shadow-[0_0_4px_rgba(158,188,158,0.6)]`}>
                     <FiBookmark className="h-5 w-5 sm:w-6 sm:h-6" />
                 </Link>
 
                 <button onClick={logout}
-                className='cursor-pointer bg-red-400/80 rounded-xl p-2
-                 hover:bg-red-400/50 hover:drop-shadow-[0_0_6px_rgba(239,68,68,0.7)] 
-                 active:scale-97 transition'>
+                    className={`${iconButtonClass} bg-red-400/80 hover:bg-red-400/50 
+                    hover:drop-shadow-[0_0_6px_rgba(239,68,68,0.7)]`}>
                     <HiLogout className="h-5 w-5 sm:w-6 sm:h-6" />
                 </button>
             </div>
