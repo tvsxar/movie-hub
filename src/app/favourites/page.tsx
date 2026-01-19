@@ -44,13 +44,15 @@ export default function FavouritesPage() {
     }, [favourites])
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-8 md:py-12 transition-all duration-300">
-            <FavouritesHeader length={movies.length} />
-            {loading
-                ? <SkeletonGrid />
-                : movies.length === 0
-                    ? <EmptyState isFav={true} />
-                    : <MoviesGrid movies={movies} />}
+        <div className="py-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-25 py-8 transition-all duration-300">
+                <FavouritesHeader length={movies.length} />
+                {loading
+                    ? <SkeletonGrid />
+                    : movies.length === 0
+                        ? <EmptyState isFav={true} />
+                        : <MoviesGrid movies={movies} />}
+            </div>
         </div>
     )
 }
