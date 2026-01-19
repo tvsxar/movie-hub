@@ -5,7 +5,9 @@ import EmptyState from '@/components/EmptyState';
 import SkeletonGrid from '@/components/SkeletonGrid';
 import { getMoviesByIds } from '@/lib/actions';
 import { useFavourite } from '@/context/useFavourite';
+import { useAuth } from '@/context/useAuth';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Movie {
     id: number;
@@ -17,6 +19,10 @@ interface Movie {
 
 export default function FavouritesPage() {
     const { favourites, clearAllFavourites } = useFavourite();
+    const { user } = useAuth();
+
+    const router = useRouter();
+
     const [movies, setMovies] = useState<Movie[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -42,6 +48,10 @@ export default function FavouritesPage() {
 
         fetchFavouriteMovies();
     }, [favourites])
+
+    if (!user) {
+        router.push('/');
+    }
 
     return (
         <div className="py-6">
