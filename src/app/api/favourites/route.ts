@@ -97,3 +97,27 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const userId = getUserIdFromToken(req);
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    await connectDB();
+
+    await Favourite.deleteMany({ userId });
+
+    return NextResponse.json(
+      { message: "All favourite movies deleted successfully" },
+      { status: 200 },
+    );
+  } catch (err) {
+    console.error("DELETING ERROR:", err);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
