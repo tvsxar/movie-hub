@@ -21,12 +21,19 @@ export default function FavouriteProvider({ children }: { children: React.ReactN
         async function fetchFavourites() {
             try {
                 const response = await fetch('/api/favourites');
+
+                if (!response.ok) {
+                    setFavourites([]);
+                    return;
+                }
+
                 const data = await response.json();
-                const ids: number[] = data.favourites.map((favourite: Favourite) => favourite.movieId);
+                const ids: number[] = Array.isArray(data.favourites)
+                    ? data.favourites.map((f: Favourite) => f.movieId)
+                    : [];
                 setFavourites(ids);
             } catch (err) {
                 console.error('Failed to fetch favourites', err);
-                throw err;
             }
         }
 
@@ -50,7 +57,6 @@ export default function FavouriteProvider({ children }: { children: React.ReactN
             });
         } catch (err) {
             console.error('Failed to toggle favourite', err);
-            throw err;
         }
     }
 
@@ -65,7 +71,6 @@ export default function FavouriteProvider({ children }: { children: React.ReactN
             setFavourites([]);
         } catch (err) {
             console.error('Failed to delete all favourites', err);
-            throw err;
         }
     }
 
