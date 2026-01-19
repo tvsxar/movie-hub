@@ -13,9 +13,10 @@ interface Movie {
 interface MovieCardProps {
     movie: Movie;
     isFav: boolean;
+    toggleFavourite: (movieId: number) => Promise<void>
 }
 
-export default function MovieCard({ movie, isFav }: MovieCardProps) {
+export default function MovieCard({ movie, isFav, toggleFavourite }: MovieCardProps) {
     return (
         <div className="group
             rounded-xl
@@ -50,6 +51,7 @@ export default function MovieCard({ movie, isFav }: MovieCardProps) {
                 " />
 
                 <button
+                    onClick={() => toggleFavourite(movie.id)}
                     className="
                         absolute top-3 right-3 z-10
                         w-9 h-9
