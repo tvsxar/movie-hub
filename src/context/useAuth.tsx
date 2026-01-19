@@ -34,14 +34,20 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
                 const response = await fetch('/api/auth/me', {
                     cache: 'no-store',
                 });
+                
+                if (!response.ok) {
+                    setUser(null);
+                    return;
+                }
+
                 const data = await response.json();
                 setUser(data.user);
-                setLoading(false);
             } catch (error) {
                 if (error instanceof Error) {
                     console.error(error.message);
                 }
                 setUser(null);
+            } finally {
                 setLoading(false);
             }
         }
@@ -54,14 +60,16 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
             setLoading(true);
             const response = await fetch('/api/auth/logout', { method: 'POST', cache: 'no-store' });
             setUser(null);
-            setLoading(false);
         } catch (error) {
-            console.error(error);
+            if (error instanceof Error) {
+                console.error(error.message);
+            }
+        } finally {
             setLoading(false);
         }
     }
 
-    async function auth(isLogin: boolean, userData: { login?: string, email?: string, username?: string, password: string }) {
+    async function auth(isLogin: boolean, userData: UserDataType) {
         try {
             setLoading(true);
             const response = await fetch(isLogin ? '/api/auth/login' : '/api/auth/register', {
@@ -77,10 +85,12 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
             }
 
             setUser(data.user);
-            setLoading(false);
         } catch (error) {
+            if (error instanceof Error) {
+                console.error(error.message);
+            }
+        } finally {
             setLoading(false);
-            throw error;
         }
     }
 
