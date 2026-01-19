@@ -11,10 +11,11 @@ interface Movie {
 }
 
 interface MovieCardProps {
-    movie: Movie
+    movie: Movie;
+    isFav: boolean;
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie, isFav }: MovieCardProps) {
     return (
         <div className="group
             rounded-xl
@@ -62,7 +63,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
                         active:scale-95 cursor-pointer
                     "
                 >
-                    {true ? <HiOutlineBookmark size={20} /> : <HiBookmark size={22} />}
+                    {!isFav ? <HiOutlineBookmark size={20} /> : <HiBookmark size={22} />}
                 </button>
             </div>
 

@@ -48,7 +48,7 @@ export default function FavouritesPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-25 py-8 transition-all duration-300">
                 <FavouritesHeader length={movies.length} />
                 {loading
-                    ? <SkeletonGrid />
+                    ? <SkeletonGrid count={movies.length} />
                     : movies.length === 0
                         ? <EmptyState isFav={true} />
                         : <MoviesGrid movies={movies} />}
