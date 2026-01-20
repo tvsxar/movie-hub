@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Movie Hub
 
-## Getting Started
+A full-stack movie application built with **Next.js (App Router)** and **MongoDB**. The app allows users to browse movies, manage personal favourites, and authenticate securely.
+The main focus of the project is authentication flow, favourites logic, and clean client–server interaction using Next.js API routes.
 
-First, run the development server:
+---
+
+## Table of Contents
+
+- [Description](#description)
+- [Live Demo](#live-demo)
+- [Features](#features)
+- [Technologies & Stack Explanation](#technologies--stack-explanation)
+- [Architecture & Flow](#architecture--flow)
+- [Installation & Run](#installation--run)
+- [Project Structure](#project-structure)
+- [Author](#author)
+
+---
+
+## Description
+
+Movie Hub allows users to:
+
+- Browse movies fetched from TMDB API
+- Register and log in with authentication
+- Add and remove movies from favourites
+- Access a personal favourites page
+- Experience a responsive, modern UI
+
+Frontend is built with **Next.js (React + App Router)** and styled with **Tailwind CSS**.
+Backend logic is implemented via **Next.js API routes**, with **MongoDB** for data persistence.
+
+---
+
+## Live Demo
+
+Try it online via our [Live Demo](https://movie-hub-next.onrender.com)!
+
+---
+
+## Features
+
+- User authentication (Register / Login / Logout)
+- Persistent user session (/api/auth/me)
+- Add remove favourite movies
+- Favourites stored per user in MongoDB
+- Protected routes (favourites page)
+- Client-side state management via custom hooks
+- Responsive movie cards with hover effects
+- Error and loading state handling
+- REST API built with Next.js API routes
+
+---
+
+## Technologies & Stack Explanation
+
+- **Next.js (App Router)** — frontend framework and backend API
+- **React** — UI and component logic
+- **Type Script** — static typing and safer code
+- **Tailwind CSS** — utility-first styling
+- **MongoDB** — database for users and favourites
+- **Mongoose** — ODM for MongoDB
+- **TMDB API** — external movie data source
+- **REST API** — implemented with Next.js API routes
+
+---
+
+## Architecture & Flow
+
+*Authentication* 
+1. User submits login or register form 
+2. Frontend sends POST request to /api/auth/login or /api/auth/register 
+3. API validates credentials and sets session 
+4. User data is fetched via /api/auth/me 
+5. Auth state is stored in AuthContext
+
+*Favourites* 
+1. User clicks bookmark icon on a movie card 
+2. Frontend sends POST / DELETE request to /api/favourites 
+3. API updates favourites in MongoDB 
+4. Updated favourites are fetched and synced in UI 
+5. Favourites page displays user-specific data
+
+---
+
+## Installation & Run
+
+### Setup
+
+```bash
+npm install
+npm i mongoose jwt bcrypt tailwindcss
+```
+
+Create a `.env` file inside `backend/` with the following:
+
+```env
+PORT=1333
+MONGO_URI=your_mongo_connection_string
+JWT_SECRET=your_jwt_secret
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend + API will be available at:
+http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+movie-hub/
+├─ app/
+│  ├─ api/
+│  │  ├─ auth/
+│  │  │  ├─ login/route.ts
+│  │  │  ├─ register/route.ts
+│  │  │  ├─ logout/route.ts
+│  │  │  └─ me/route.ts
+│  │  └─ favourites/route.ts
+│  ├─ login/page.tsx
+│  ├─ register/page.tsx
+│  ├─ favourites/page.tsx
+│  ├─ layout.tsx
+│  └─ page.tsx
+├─ components/
+│  ├─ MovieCard.tsx
+│  ├─ MoviesGrid.tsx
+│  ├─ Pagination.tsx
+│  ├─ Footer.tsx
+│  ├─ SearchBar.tsx
+│  ├─ AuthForm.tsx
+│  ├─ AuthButtons.tsx
+│  ├─ UserButtons.tsx
+│  └─ Navbar.tsx
+├─ context/
+│  └─ useAuth.tsx
+│  └─ useFavourites.tsx
+├─ lib/
+│  ├─ db.ts
+│  └─ utils.ts
+├─ public/
+├─ package.json
+└─ next.config.js
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Taras Poiatsyka**\
+[GitHub](https://github.com/tvsxar)
