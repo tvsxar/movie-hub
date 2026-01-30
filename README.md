@@ -63,6 +63,7 @@ Try it online via our [Live Demo](https://movie-hub-next.onrender.com)!
 - **Mongoose** — ODM for MongoDB
 - **TMDB API** — external movie data source
 - **REST API** — implemented with Next.js API routes
+- **Docker & Docker Compose** — for containerization and environment orchestration
 
 ---
 
@@ -86,27 +87,39 @@ Try it online via our [Live Demo](https://movie-hub-next.onrender.com)!
 
 ## Installation & Run
 
-### Setup
+### 1. The Quickest Way (Docker Compose)
+
+_Requires [Docker](https://www.docker.com/get-started/)_
+
+1. Create a `.env` file in the root directory:
+   ```bash
+   MONGO_URI=your_mongo_connection_string
+   JWT_SECRET=your_jwt_secret
+   TMDB_API_KEY=your_tmdb_key
+   ```
+2. Run the container:
+   ```bash
+   docker-compose up --build
+   ```
+3. Open http://localhost:3000 in your browser
+
+### 2. Manual Setup
 
 ```bash
 npm install
-npm i mongoose jwt bcrypt tailwindcss
 ```
 
-Create a `.env` file inside `backend/` with the following:
-
-```env
-PORT=1333
+Create a .env file in the root directory:
+```bash
 MONGO_URI=your_mongo_connection_string
 JWT_SECRET=your_jwt_secret
+TMDB_API_KEY=your_tmdb_key
 ```
-
 ```bash
 npm run dev
 ```
 
-Frontend + API will be available at:
-http://localhost:3000
+Frontend + API will be available at: http://localhost:3000
 
 ---
 
@@ -114,6 +127,8 @@ http://localhost:3000
 
 ```
 movie-hub/
+├─ docker-compose.yml
+├─ Dockerfile
 ├─ app/
 │  ├─ api/
 │  │  ├─ auth/
